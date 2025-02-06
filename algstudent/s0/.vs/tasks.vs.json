@@ -1,0 +1,10 @@
+{
+  "version": "0.2.1",
+  "tasks": [
+    {
+      "taskLabel": "tarea-PythonA1",
+      "appliesTo": "PythonA1.py",
+      "type": "launch"
+    }
+  ]
+}
