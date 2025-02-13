@@ -13,7 +13,7 @@ public class Vector7 {
 		long t1,t2;
 		int matches2 = 0;
 		
-		for (int n=10000; n<=Integer.MAX_VALUE; n*=2){ //n is increased *5   
+		for (int n=10000; n<=Integer.MAX_VALUE; n*=2){ //n is increased *2   
 			  v = new int[n];
 			  Vector1.fillIn(v);
 			  

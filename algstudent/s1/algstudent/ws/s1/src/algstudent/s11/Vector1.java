@@ -77,7 +77,7 @@ public class Vector1 {
 	public static int sum(int[]a){
 	  int s = 0;
 	  int n = a.length;
-	  for (int i=0; i<n; i++) 
+	  for (int i=0; i<n; i++) //O(n)
 		  s = s+a[i];
 	  return s;
 	} 
@@ -92,7 +92,7 @@ public class Vector1 {
 	  int n = a.length;
 	  m[0] = 0; //Initial position for max value
 	  m[1] = a[0]; //Initial max value
-	  for (int i=1; i<n; i++) //The rest of the elements
+	  for (int i=1; i<n; i++) //The rest of the elements O(n)
 	     if (a[i] > m[1]) {
 	    	m[0] = i;
 	     	m[1] = a[i];
@@ -110,11 +110,11 @@ public class Vector1 {
 	public static int matches1(int[]a, int[]b) {
 		int c = 0;
 		int n = a.length;
-		for (int i=0; i<n; i++)
-		    for (int j=0 ;j<n; j++)
+		for (int i=0; i<n; i++) //O(n)
+		    for (int j=0 ;j<n; j++) //O(n)
 	               if (i==j && a[i]==b[j])
-	             c++;
-	        return c;
+	            	   c++;
+	        return c; //O(n^2)
 	}
 	
 	/**
@@ -128,7 +128,7 @@ public class Vector1 {
 	public static int matches2(int[]a, int[]b) {
 		int c = 0;
 		int n = a.length;
-		for (int i=0; i<n; i++) 
+		for (int i=0; i<n; i++)  //O(n)
 	          if (a[i] == b[i])
 	             c++;
 	        return c;
