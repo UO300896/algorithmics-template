@@ -25,14 +25,13 @@ public class QuicksortInsertion {
 		int j = right - 1;
 		int pivot;
 		
-		if (right - left + 1 <= K) {
+		
+	if (left < right) {
+            
+            if (right - left + 1 <= K) {
             insertion(a, left, right);
-            
         }
-		else if (left < right) {
-            
-            
-            int center = median_of_three(a, left, right);
+          else{  int center = median_of_three(a, left, right);
 			//if there are less than or equal to 3 elements, there are just ordered
 			if ((right - left) >= 3){ 
 				pivot = a[center]; //choose the pivot
@@ -51,17 +50,18 @@ public class QuicksortInsertion {
 			} //if
 		} //if
     }
+	}
 
     public static void insertion(int[] a, int left, int right) {
     	int j;
 		int pivot;
 		int n = right;
 		
-		for (int i =  left; i < n; i++) { //O(n)
+		for (int i =  left-1; i < n+1; i++) { //O(n)
 			pivot = a[i];
 			j = i-1;
 			
-			while (j >= 0 && pivot < a[j]) {
+			while (j >= left && pivot < a[j]) {
 				a[j+1] = a[j];
 				j--;
 			}
