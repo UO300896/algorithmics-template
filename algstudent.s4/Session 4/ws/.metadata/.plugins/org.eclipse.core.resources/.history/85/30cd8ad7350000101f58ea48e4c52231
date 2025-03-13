@@ -1,0 +1,7 @@
+package algstudent.s4;
+
+public class Node {
+
+	public String color;
+	public
+}

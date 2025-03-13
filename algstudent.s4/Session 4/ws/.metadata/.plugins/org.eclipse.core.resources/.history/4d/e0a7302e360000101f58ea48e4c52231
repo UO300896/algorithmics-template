@@ -1,0 +1,43 @@
+package algstudent.s4;
+
+import java.awt.Color;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class GraphColouring {
+
+	public static Map<String, String> greedy(Map<String, List<String>> graph) {
+		List<String> colors = new ArrayList<String>();
+		String color = "";
+		int j = 0;
+		
+		colors.add("Blue");
+		colors.add("Green");
+		colors.add("Yellow");
+		colors.add("Red");
+		
+		Map<String, String> result = new HashMap<String, String>();
+		for(int i = 0; i < graph.size(); i++) {
+			do {
+				color =colors.get(j);
+				j++;
+			} while(containsColor(graph.get(String.i), color));
+			result.put("" + i, "" + colors.get(0));
+		
+		}
+		return result;
+	}
+
+	private static boolean containsColor(List<String> list, String color) {
+		boolean contains = false;
+		for(String s : list) {
+			contains = s == color;
+			if(contains)
+				return true;
+		}
+		
+		return false;
+	}
+}
