@@ -18,7 +18,11 @@ public class MinimumPathsExample {
 		weights = new int[n][n];
 		costs = weights.clone();
 		p = new int[n][n];
-
+		
+		for(int i = 0; i < p.length; i++)
+			for(int j = 0; j < p.length; j++)
+				p[i][j] = -1;
+		
 		fillInWeights(weights); //weights for the example
 		System.out.println("WEIGHT MATRIX IS:");
 		printMatrix(weights);
@@ -52,25 +56,45 @@ public class MinimumPathsExample {
 		for(int node= 0; node < v.length; node++) {
 			for(int pivot = 0; pivot < v.length; pivot++) {
 				for(int dest = 0; dest < v.length; dest++) {
-					
-						if(weights[node][dest] > weights[node][pivot] + weights[pivot][dest])
+					if(node != dest)
+						{if(weights[node][dest] > weights[node][pivot] + weights[pivot][dest])
 							{
 								costs[node][dest] = weights[node][pivot] + weights[pivot][dest];
 								p[node][dest] = pivot;
 							}
 						else
 							costs[node][dest] = weights[node][dest];
+						if(costs[node][dest] >= 10000)
+							p[node][dest] = 10000;
+						}
+					else
+						costs[node][dest] = 0;
+					
 				}
 			}
 		}
 	}
 
 	static void minimumPath(String[] v, int[][] weights, int[][] costs, int[][] steps, int source, int target) {
-		System.out.println("COMPLETE THIS METHOD");
+		//TO FINISH
+		if(costs[source][target] >= 10000)
+			System.out.println("THERE IS NO PATH");
+		else {
+			
+		
+		int pivot =  p[source][target];
+		System.out.print("Node"+source + "--> ");
+		
+		if(pivot != -1)
+			minimumPath(v, weights,  costs,  steps,pivot,  target);
+		else
+			System.out.println("Node"+target);
+		}
 	}
 
 	/* IT IS RECURSIVE and WORST CASE is O(n), IT IS O(n) if you write all nodes */
 	static void path(String[] v, int[][] steps, int i, int j) {
+		//TO DO
 		System.out.println("COMPLETE THIS METHOD");
 	}
 
@@ -79,7 +103,7 @@ public class MinimumPathsExample {
 		for (int i = 0; i < w.length; i++)
 			for (int j = 0; j < w.length; j++)
 				w[i][j] = 10000000;
-		w[0][1] = 10;
+		w[0][1] = 19;
 		w[0][2]=  10;
 		w[1][2]=  20;
 		w[2][1] = 19;

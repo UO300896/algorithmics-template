@@ -64,8 +64,8 @@ public class MinimumPathsExample {
 							}
 						else
 							costs[node][dest] = weights[node][dest];
-						if(costs[node][dest] >= 10000)
-							p[node][dest] = 10000;
+						if(costs[node][dest] >= 10000000)
+							p[node][dest] = 10000000;
 						}
 					else
 						costs[node][dest] = 0;
