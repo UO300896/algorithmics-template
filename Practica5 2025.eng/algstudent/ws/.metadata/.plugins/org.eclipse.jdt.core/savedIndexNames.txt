@@ -1,3 +1,8 @@
+<<<<<<< HEAD
 INDEX VERSION 1.131+C:\Algoritmia\Lab\algorithmics-template\Practica5 2025.eng\algstudent\ws\.metadata\.plugins\org.eclipse.jdt.core
 1865797976.index
+=======
+INDEX VERSION 1.131+C:\Users\UO300896\Desktop\algoritmia\algorithmics-template\Practica5 2025.eng\algstudent\ws\.metadata\.plugins\org.eclipse.jdt.core
+2367783050.index
+>>>>>>> eae182da827189e1361aa6a6dd355c6b31c6e7ad
 2725142083.index
