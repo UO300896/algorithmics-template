@@ -1,0 +1,4 @@
+INDEX VERSION 1.131+C:\Users\UO300896\Desktop\algoritmia\algorithmics-template\Practica5 2025.eng\algstudent\ws\.metadata\.plugins\org.eclipse.jdt.core
+2367783050.index
+2725142083.index
+1865797976.index
