@@ -1,0 +1,75 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Random;
+
+import labs.examples.branchandbound.pyramid.utils.Heap;
+import labs.examples.branchandbound.pyramid.utils.Node;
+
+public class NullPathBB {
+
+	
+
+		private int[][] matrix;
+		
+		boolean found = false;
+		double p1 = 0.7;
+		double p2 = 1 - p1;
+		int minWeight = 10;
+		int maxWeight = 99;
+		int cost = 0;
+		int tolerance = 5;
+		int weight = 0;
+		int[] sol;
+		protected Heap ds; //nodes to be explored (not used nodes)
+		protected Node bestNode; //to save the final node of the best solution
+		protected Node rootNode; //initial node
+
+		private int pruneLimit;
+
+		
+		public NullPathBB(int n) {
+			
+			Random r = new Random();
+			matrix = new int[n][n];
+			for(int i = 0; i < n; i++) {
+				for(int j = 0; j < n; j++) {
+					matrix[i][j] = r.nextDouble() <= p1? r.nextInt(minWeight, maxWeight) : r.nextInt(minWeight, maxWeight)*-1;
+					
+				}
+			}
+			
+			for(int i = 0; i < n; i++)
+				System.out.println(Arrays.toString(matrix[i]));
+		
+			sol = new int[matrix.length];
+			calculateHeuristicValue(); 
+}
+		
+		private void calculateHeuristicValue() {
+			// TODO Auto-generated method stub
+			
+		}
+
+		public void branchAndBound(Node rootNode) {
+			ds.insert(rootNode); //first node to be explored
+			pruneLimit = rootNode.initialValuePruneLimit();
+			while (!ds.empty() && ds.estimateBest() < pruneLimit) {
+				Node node = ds.extractBestNode();
+				ArrayList<Node> children = node.expand();
+				for (Node child : children)
+					if (child.isSolution()) {
+						int cost = child.getHeuristicValue();
+						if (cost < pruneLimit) {
+							pruneLimit = cost;
+							bestNode = child;
+						}
+					}
+					else
+						if (child.getHeuristicValue() < pruneLimit) {
+							ds.insert(child);
+						}
+				} //while
+			}
+		
+		
+}

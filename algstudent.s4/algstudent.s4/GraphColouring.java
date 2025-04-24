@@ -52,7 +52,7 @@ public class GraphColouring {
 	
 		for(Object s : list) { //O(1) best case, O(n) worst case
 			
-			contains = result.get(""+s) == color;
+			contains = result.get(""+s).equalsIgnoreCase(color);
 			if(contains)
 				return true;
 		}
