@@ -1,4 +1,0 @@
-INDEX VERSION 1.131+C:\Users\UO300896\Desktop\algoritmia\algorithmics-template\algstudent.s6\ws\.metadata\.plugins\org.eclipse.jdt.core
-1865797976.index
-2528013755.index
-2367783050.index
