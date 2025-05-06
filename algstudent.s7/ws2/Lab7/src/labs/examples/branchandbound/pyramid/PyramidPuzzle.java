@@ -127,7 +127,7 @@ class PyramidBoard extends Node {
                     
                     for (int k = 1; k <= 9; k++) { 
                         int[][] newBoard = copyBoard(i, j, k); 
-                        PyramidBoard child = new PyramidBoard(newBoard, depth + 1, ID, i, j); 
+                        PyramidBoard child = new PyramidBoard(newBoard, depth + 1,parentID, i, j, ID); 
                         if (!child.prune()) { 
                             children.add(child);
                         }
@@ -138,13 +138,13 @@ class PyramidBoard extends Node {
         }
         return children; }
 
-    public PyramidBoard(int[][] board, int depth, UUID parentID, int row, int column) {
+    public PyramidBoard(int[][] board, int depth, UUID parentID, int row, int column, UUID id) {
         this.board = board;
         this.depth = depth;
         this.parentID = parentID;
         this.row = row;
         this.column = column;
-        this.ID = UUID.randomUUID(); 
+        this.ID = id; 
         calculateHeuristicValue(); 
     }
 }
