@@ -1,0 +1,5 @@
+INDEX VERSION 1.131+C:\Users\UO300896\Desktop\algoritmia\algorithmics-template\algstudent.s7\ws\.metadata\.plugins\org.eclipse.jdt.core
+1865797976.index
+3964833873.index
+2367783050.index
+2424646841.index

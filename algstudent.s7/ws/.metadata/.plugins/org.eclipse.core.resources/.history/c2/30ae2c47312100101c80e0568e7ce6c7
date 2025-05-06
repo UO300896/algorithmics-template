@@ -1,0 +1,64 @@
+import java.util.Random;
+
+import labs.examples.branchandbound.pyramid.utils.BranchAndBound;
+import labs.examples.branchandbound.pyramid.utils.Node;
+
+public class NullPathBB extends BranchAndBound {
+
+    private int n; // Número de nodos
+    private int[][] weightMatrix; // Matriz de pesos
+    private static final int minWeight = 10;
+    private static final int maxWeight = 99;
+    private static final int tolerance = 99;
+
+    public NullPathBB(int n) {
+        this.n = n;
+        this.weightMatrix = generateWeightMatrix(n);
+    }
+    
+    // Método para generar la matriz de pesos
+    private int[][] generateWeightMatrix(int n) {
+        Random rand = new Random();
+        int[][] matrix = new int[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (i != j) {
+                    double probability = rand.nextDouble();
+                    if (probability < 0.5) {
+                        matrix[i][j] = rand.nextInt(maxWeight - minWeight + 1) + minWeight;
+                    } else {
+                        matrix[i][j] = -(rand.nextInt(maxWeight - minWeight + 1) + minWeight);
+                    }
+                } else {
+                    matrix[i][j] = 0;
+                }
+            }
+        }
+        return matrix;
+    }
+    
+    public void findNullPath() {
+        int[] visitedNodes = new int[n];
+        visitedNodes[0] = 1;
+        Node initialNode = new NullPathNode(visitedNodes, 0, 0, null, weightMatrix, 0);
+
+        
+        this.rootNode = initialNode;
+
+        // Iniciar el proceso de Branch and Bound
+        branchAndBound(initialNode);
+
+        // Imprimir solución
+        printSolutionTrace();
+    }
+
+
+    // Método para obtener la mejor solución (en este caso el NullPath)
+    public static void main(String[] args) {
+        NullPathBB pathFinder = new NullPathBB(5); // Por ejemplo, con 5 nodos
+        pathFinder.findNullPath();
+       
+
+    }
+}
+

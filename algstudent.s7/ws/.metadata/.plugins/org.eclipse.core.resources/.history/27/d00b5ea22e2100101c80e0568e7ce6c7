@@ -1,0 +1,117 @@
+import java.util.*;
+
+public class NullPathBB {
+    static final int MIN_WEIGHT = 10;
+    static final int MAX_WEIGHT = 99;
+    static final int TOLERANCE = 99;
+    static final int TARGET_COST = 0;
+
+    int n;
+    int[][] graph;
+    boolean[] visited;
+    int bestTolerance = TOLERANCE + 1;
+    List<Integer> bestPath = new ArrayList<>();
+
+    PriorityQueue<State> queue = new PriorityQueue<>(Comparator.comparingInt(s -> s.heuristic));
+
+    public NullPathBB(int n) {
+        this.n = n;
+        this.graph = generateGraph(n);
+        this.visited = new boolean[n];
+    }
+
+    public void run() {
+        visited[0] = true;
+        queue.add(new State(0, 0, new ArrayList<>(List.of(0)), visited.clone()));
+
+        while (!queue.isEmpty()) {
+            State state = queue.poll();
+            if (state.path.size() == n && state.node == n - 1) {
+                int deviation = Math.abs(state.cost - TARGET_COST);
+                if (deviation <= TOLERANCE && deviation < bestTolerance) {
+                    bestTolerance = deviation;
+                    bestPath = state.path;
+                    break;
+                }
+                continue;
+            }
+            for (int next = 0; next < n; next++) {
+                if (!state.visited[next]) {
+                    int newCost = state.cost + graph[state.node][next];
+                    List<Integer> newPath = new ArrayList<>(state.path);
+                    newPath.add(next);
+                    boolean[] newVisited = state.visited.clone();
+                    newVisited[next] = true;
+                    int heuristic = Math.abs(newCost - TARGET_COST) + estimateRemainingCost(newVisited);
+                    queue.add(new State(next, newCost, newPath, newVisited, heuristic));
+                }
+            }
+        }
+        System.out.println("Best path: " + bestPath);
+        System.out.println("Total cost: " + (bestPath.isEmpty() ? "N/A" : calculatePathCost(bestPath)));
+    }
+
+    private int[][] generateGraph(int n) {
+        Random rand = new Random();
+        int[][] g = new int[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (i == j) continue;
+                boolean positive = rand.nextBoolean();
+                int weight = rand.nextInt(MAX_WEIGHT - MIN_WEIGHT + 1) + MIN_WEIGHT;
+                g[i][j] = positive ? weight : -weight;
+            }
+        }
+        return g;
+    }
+
+    private int estimateRemainingCost(boolean[] visited) {
+        List<Integer> unusedWeights = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            if (!visited[i]) {
+                for (int j = 0; j < n; j++) {
+                    if (!visited[j] && i != j) unusedWeights.add(Math.abs(graph[i][j]));
+                }
+            }
+        }
+        Collections.sort(unusedWeights);
+        int sum = 0;
+        for (int i = 0; i < Math.min(unusedWeights.size(), n - 1); i++) {
+            sum += unusedWeights.get(i);
+        }
+        return sum;
+    }
+
+    private int calculatePathCost(List<Integer> path) {
+        int cost = 0;
+        for (int i = 0; i < path.size() - 1; i++) {
+            cost += graph[path.get(i)][path.get(i + 1)];
+        }
+        return cost;
+    }
+
+    static class State {
+        int node;
+        int cost;
+        List<Integer> path;
+        boolean[] visited;
+        int heuristic;
+
+        public State(int node, int cost, List<Integer> path, boolean[] visited) {
+            this(node, cost, path, visited, 0);
+        }
+
+        public State(int node, int cost, List<Integer> path, boolean[] visited, int heuristic) {
+            this.node = node;
+            this.cost = cost;
+            this.path = path;
+            this.visited = visited;
+            this.heuristic = heuristic;
+        }
+    }
+
+    public static void main(String[] args) {
+        int n = 8; // example size
+        new NullPathBB(n).run();
+    }
+}
