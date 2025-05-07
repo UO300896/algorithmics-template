@@ -2,7 +2,7 @@ import test.NullPath;
 
 public class Main2 {
     public static void main(String[] args) {
-        int size = 10;
+        int size = 5;
         long start = System.currentTimeMillis();
    
    

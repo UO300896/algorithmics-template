@@ -20,30 +20,33 @@ public class NullPathBB extends BranchAndBound {
         double p1 = 0.7;
         int minWeight = 10;
         int maxWeight = 99;
-
+        Boolean[] visited = new Boolean[n];
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 matrix[i][j] = r.nextDouble() <= p1 ? r.nextInt(minWeight, maxWeight)
                                                     : -r.nextInt(minWeight, maxWeight);
             }
         }
-
+        int i = 0;
         for (int[] row : matrix)
-            System.out.println(Arrays.toString(row));
+            {
+        	System.out.println(Arrays.toString(row));
+        	visited[i++] = false;;
+            }
 
-        Node start = new PathNode(0, new boolean[n], 0, new ArrayList<>(), null);
+        Node start = new PathNode(0,visited , 0, new ArrayList<>(), null);
         super.branchAndBound(start);
         super.printSolutionTrace();
     }
 
-    private class PathNode extends Node {
+    public class PathNode extends Node {
 
         int current;
-        boolean[] visited;
-        int totalWeight;
+        Boolean[] visited;
+        
         ArrayList<Integer> path;
 
-        public PathNode(int current, boolean[] visited, int totalWeight, ArrayList<Integer> path, UUID parentID) {
+        public PathNode(int current, Boolean[] visited, int totalWeight, ArrayList<Integer> path, UUID parentID) {
             this.current = current;
             this.visited = visited.clone();
             this.visited[current] = true;
@@ -60,7 +63,7 @@ public class NullPathBB extends BranchAndBound {
         public ArrayList<Node> expand() {
             ArrayList<Node> children = new ArrayList<>();
             for (int i = 0; i < size; i++) {
-                if (!visited[i]) {
+                if (!visited[i] && current != matrix.length-1 && (i != size-1 || depth == matrix.length-1)) {
                     int newWeight = totalWeight + matrix[current][i];
                     children.add(new PathNode(i, visited, newWeight, path, ID));
                 }
@@ -71,11 +74,10 @@ public class NullPathBB extends BranchAndBound {
         @Override
         public boolean isSolution() {
         	
+        	System.out.println(path.toString());
             if (path.size() != size) return false;
-            int last = path.get(path.size() - 1);
-            return last == size - 1 &&
-                   totalWeight >= cost - tolerance &&
-                   totalWeight <= cost + tolerance;
+            
+            return current == size - 1 && totalWeight < cost + tolerance && totalWeight > cost - tolerance;
         }
 
         @Override
@@ -95,10 +97,16 @@ public class NullPathBB extends BranchAndBound {
 		@Override
 		public void calculateHeuristicValue() {
 			
-			heuristicValue = 0;
+			heuristicValue = totalWeight;
 			for(int i = 0 ; i < matrix.length; i++)
-				heuristicValue += Math.abs(matrix[current][i]);
+				if (!visited[i]) {
+				heuristicValue += matrix[current][i];
+				}
+				
+			System.out.println("heuristic of  " + current +": " + heuristicValue);
 		}
+		
+		
     }
     
     
