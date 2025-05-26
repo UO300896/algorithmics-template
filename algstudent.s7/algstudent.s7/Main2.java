@@ -1,4 +1,4 @@
-import test.NullPath;
+
 
 public class Main2 {
     public static void main(String[] args) {
@@ -6,16 +6,16 @@ public class Main2 {
         long start = System.currentTimeMillis();
    
    
-        NullPath n2 = new NullPath(size);
+        NullPathBB n2 = new NullPathBB(size);
         
         long end = System.currentTimeMillis();
-        System.out.println("Tiempo transcurrido: " + (end - start) + " ms");
+        System.out.println("Time: " + (end - start) + " ms");
          start = System.currentTimeMillis();
        
         System.out.println("Running NullPathBB with matrix size: " + size);
         NullPathBB solver = new NullPathBB(size);
         end = System.currentTimeMillis();
-        System.out.println("Tiempo transcurrido 2: " + (end - start) + " ms");
+        System.out.println("Time: " + (end - start) + " ms");
         
     }
 }

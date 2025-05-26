@@ -1,8 +1,8 @@
-import test.NullPath;
+
 
 public class NullPathTimesBB {
     public static void main(String[] args) {
-        int size = 10;
+        int size = 25;
         long totalTime = 0;
         long start = 0;
         long end  = 0;

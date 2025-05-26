@@ -16,27 +16,33 @@ public class NullPathBB extends BranchAndBound {
     public NullPathBB(int n) {
         this.size = n;
         weights = new int[n][n];
-        Random r = new Random();
-        double p1 = 0.7;
-        int minWeight = 10;
-        int maxWeight = 99;
+        
+       
         Boolean[] visited = new Boolean[n];
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                weights[i][j] = r.nextDouble() <= p1 ? r.nextInt(minWeight, maxWeight)
-                                                    : -r.nextInt(minWeight, maxWeight);
-            }
-        }
-        int i = 0;
-        for (int[] row : weights)
-            {
-        	System.out.println(Arrays.toString(row));
-        	visited[i++] = false;;
-            }
-
+       
+        fillInWeights(visited);
         rootNode = new PathNode(0,visited , 0, new ArrayList<>(), null);
         super.branchAndBound(rootNode);
         super.printSolutionTrace();
+    }
+    
+    private void fillInWeights(Boolean[] visited) {
+    	Random r = new Random();
+    	 double p1 = 0.5;
+         int minWeight = 10;
+         int maxWeight = 99;
+    	 for (int i = 0; i < size; i++) {
+             for (int j = 0; j < size; j++) {
+                 weights[i][j] = r.nextDouble() <= p1 ? r.nextInt(minWeight, maxWeight)
+                                                     : -r.nextInt(minWeight, maxWeight);
+             }
+         }
+         int i = 0;
+         for (int[] row : weights)
+             {
+         	System.out.println(Arrays.toString(row));
+         	visited[i++] = false;;
+             }
     }
 
     public class PathNode extends Node {

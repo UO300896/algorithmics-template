@@ -8,35 +8,41 @@ import labs.examples.branchandbound.pyramid.utils.Node;
 
 public class NullPathBB extends BranchAndBound {
 
-    private int[][] matrix;
+    private int[][] weights;
     private int size;
     private int cost = 0;
     private int tolerance = 99;
 
     public NullPathBB(int n) {
         this.size = n;
-        matrix = new int[n][n];
-        Random r = new Random();
-        double p1 = 0.7;
-        int minWeight = 10;
-        int maxWeight = 99;
+        weights = new int[n][n];
+        
+       
         Boolean[] visited = new Boolean[n];
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                matrix[i][j] = r.nextDouble() <= p1 ? r.nextInt(minWeight, maxWeight)
-                                                    : -r.nextInt(minWeight, maxWeight);
-            }
-        }
-        int i = 0;
-        for (int[] row : matrix)
-            {
-        	System.out.println(Arrays.toString(row));
-        	visited[i++] = false;;
-            }
-
-        Node start = new PathNode(0,visited , 0, new ArrayList<>(), null);
-        super.branchAndBound(start);
+       
+        fillInWeights(visited);
+        rootNode = new PathNode(0,visited , 0, new ArrayList<>(), null);
+        super.branchAndBound(rootNode);
         super.printSolutionTrace();
+    }
+    
+    private void fillInWeights(Boolean[] visited) {
+    	Random r = new Random();
+    	 double p1 = 0.5;
+         int minWeight = 10;
+         int maxWeight = 99;
+    	 for (int i = 0; i < size; i++) {
+             for (int j = 0; j < size; j++) {
+                 weights[i][j] = r.nextDouble() <= p1 ? r.nextInt(minWeight, maxWeight)
+                                                     : -r.nextInt(minWeight, maxWeight);
+             }
+         }
+         int i = 0;
+         for (int[] row : weights)
+             {
+         	System.out.println(Arrays.toString(row));
+         	visited[i++] = false;;
+             }
     }
 
     public class PathNode extends Node {
@@ -63,8 +69,8 @@ public class NullPathBB extends BranchAndBound {
         public ArrayList<Node> expand() {
             ArrayList<Node> children = new ArrayList<>();
             for (int i = 0; i < size; i++) {
-                if (!visited[i] && current != matrix.length-1 && (i != size-1 || depth == matrix.length-1)) {
-                    int newWeight = totalWeight + matrix[current][i];
+                if (!visited[i] && current != weights.length-1 && (i != size-1 || depth == weights.length-1)) {
+                    int newWeight = totalWeight + weights[current][i];
                     children.add(new PathNode(i, visited, newWeight, path, ID));
                 }
             }
@@ -96,11 +102,12 @@ public class NullPathBB extends BranchAndBound {
 
 		@Override
 		public void calculateHeuristicValue() {
+			int min = Integer.MAX_VALUE;
 			
-			heuristicValue = totalWeight;
-			for(int i = 0 ; i < matrix.length; i++)
+			for(int i = 0 ; i < weights.length; i++)
 				if (!visited[i]) {
-				heuristicValue += matrix[current][i];
+					if(Math.abs(min) > Math.abs(weights[current][i] + totalWeight))
+						heuristicValue += weights[current][i]+totalWeight;
 				}
 				
 			System.out.println("heuristic of  " + current +": " + heuristicValue);
